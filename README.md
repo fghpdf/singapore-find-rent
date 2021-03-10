@@ -1,2 +1,2 @@
-# sinagpore-find-rent
+# singapore-find-rent
 🇸🇬find rent
