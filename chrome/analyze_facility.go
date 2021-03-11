@@ -5,19 +5,19 @@ func analyzeFac(facilities []string) *Facility {
 	for _, facility := range facilities {
 		switch facility {
 		case "WADING POOL", "50M LAP POOL", "JACUZZI POOL", "50M FREEFORM POOL", "BEACH SPLASH POOL", "FAMILY POOL", "REFLECTION POOL":
-			fac.pool = true
+			fac.Pool = true
 		case "TENNIS COURT":
-			fac.tennisCourt = true
+			fac.TennisCourt = true
 		case "READING Corner":
-			fac.readingCorner = true
+			fac.ReadingCorner = true
 		case "FITNESS STATION", "FITNESS ALCOVE":
-			fac.fitnessArea = true
+			fac.FitnessArea = true
 		case "INDOOR GYM", "HYDRO GYM STATION":
-			fac.gymnasium = true
+			fac.Gymnasium = true
 		case "BBQ AREA":
-			fac.bbqPit = true
+			fac.BbqPit = true
 		case "24-HOUR SECURITY":
-			fac.security = true
+			fac.Security = true
 		}
 	}
 

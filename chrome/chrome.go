@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/chromedp/chromedp"
+	"github.com/corpix/uarand"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 
@@ -13,51 +14,58 @@ import (
 )
 
 type Condo struct {
-	name     string
-	address  string
-	district string
+	Name     string `bson:"Name"`
+	Address  string `bson:"address"`
+	District string `bson:"district"`
 	// 资产期限
-	tenure string
+	Tenure string `bson:"tenure"`
 	// 开发商
-	developer string
-	url       string
-	facility  *Facility
-	facString string
+	Developer string    `bson:"developer"`
+	Url       string    `bson:"url"`
+	Facility  *Facility `bson:"facility, flatten"`
+	FacString string    `bson:"fac_string"`
 }
 
 type Facility struct {
 	// 泳池
-	pool bool
+	Pool bool `bson:"Pool"`
 	// 网球场
-	tennisCourt bool
+	TennisCourt bool `bson:"tennis_court"`
 	// 读书角
-	readingCorner bool
+	ReadingCorner bool `bson:"reading_court"`
 	// 屋顶花园
-	rooftopGarden bool
+	RooftopGarden bool `bson:"rooftop_garden"`
 	// 健身区
-	fitnessArea bool
+	FitnessArea bool `bson:"fitness_area"`
 	// 俱乐部
-	clubHouse bool
+	ClubHouse bool `bson:"club_house"`
 	// 健身房
-	gymnasium bool
+	Gymnasium bool `bson:"gymnasium"`
 	// 烧烤设备
-	bbqPit bool
+	BbqPit bool `bson:"bbq_pit"`
 	// 秘密花园
-	secretGarden bool
+	SecretGarden bool `bson:"secret_garden"`
 	// 慢跑道
-	joggingTrack bool
+	JoggingTrack bool `bson:"jogging_track"`
 	// 蒸汽室
-	steamRoom bool
+	SteamRoom bool `bson:"steam_room"`
 	// 停车场
-	carPark bool
+	CarPark bool `bson:"car_park"`
 	// 安保
-	security bool
+	Security bool `bson:"security"`
 }
 
 func Run() {
+	opts := append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.UserAgent(uarand.GetRandom()),
+		chromedp.Flag("headless", false),
+	)
+
+	ctx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
+
 	// create chrome instance
-	ctx, cancel := chromedp.NewContext(
-		context.Background(),
+	ctx, cancel = chromedp.NewContext(
+		ctx,
 		chromedp.WithLogf(log.Infof),
 	)
 	defer cancel()
