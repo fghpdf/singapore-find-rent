@@ -14,13 +14,8 @@ import (
 )
 
 type Condo struct {
-	Name     string `bson:"Name"`
-	Address  string `bson:"address"`
-	District string `bson:"district"`
-	// 资产期限
-	Tenure string `bson:"tenure"`
-	// 开发商
-	Developer string    `bson:"developer"`
+	Name      string    `bson:"Name"`
+	Address   string    `bson:"address"`
 	Url       string    `bson:"url"`
 	Facility  *Facility `bson:"facility, flatten"`
 	FacString string    `bson:"fac_string"`

@@ -54,12 +54,6 @@ func analyzeCondo(ctx context.Context, condoUrl string) *Condo {
 		chromedp.Text(`div.propertytitlecontainer > div > h1`, &c.Name),
 		// address
 		chromedp.Text(`div.propertytitlecontainer > div.propcol1 > :nth-child(2)`, &c.Address),
-		// district
-		chromedp.Text(`div.propertytitlecontainer > div.propcol1 > :nth-child(3)`, &c.Address),
-		// tenure
-		chromedp.Text(`div.propertytitlecontainer > div.propcol1 > :nth-child(4)`, &c.Tenure),
-		// developer
-		chromedp.Text(`div.propertytitlecontainer > div.propcol1 > :nth-child(5)`, &c.Developer),
 		chromedp.Nodes(`div#tabs-property-facilities > :nth-child(2) > ul > li`, &leftNodes, chromedp.ByQueryAll, chromedp.AtLeast(0)),
 		chromedp.Nodes(`div#tabs-property-facilities > :nth-child(3) > ul > li`, &rightNodes, chromedp.ByQueryAll, chromedp.AtLeast(0)),
 		chromedp.ActionFunc(func(ctx context.Context) error {
