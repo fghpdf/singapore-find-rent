@@ -102,11 +102,7 @@ func run(ctx context.Context) {
 
 	log.WithField("condo number", len(condoUrls)).Info("need to analyze")
 
-	condos := make([]*Condo, 0)
-	for _, condoUrl := range condoUrls {
-		wg.Add(1)
-		go analyzeCondo(ctx, condoUrl, &wg, &condos)
-	}
+	condos := loopAnalyzeCondo(ctx, condoUrls, 10)
 
 	wg.Wait()
 

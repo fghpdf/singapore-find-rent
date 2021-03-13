@@ -10,12 +10,33 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-func analyzeCondo(ctx context.Context, condoUrl string, wg *sync.WaitGroup, condos *[]*Condo) {
+func loopAnalyzeCondo(ctx context.Context, condoUrls []string, maxConcurrent int) []*Condo {
+	concurrentGoroutines := make(chan struct{}, maxConcurrent)
 
-	defer wg.Done()
+	var wg sync.WaitGroup
+	condos := make([]*Condo, 0)
 
+	for _, url := range condoUrls {
+		wg.Add(1)
+		go func(url string) {
+			defer wg.Done()
+			concurrentGoroutines <- struct{}{}
+			condo := analyzeCondo(ctx, url)
+			if condo != nil {
+				condos = append(condos, condo)
+			}
+			<-concurrentGoroutines
+		}(url)
+	}
+
+	wg.Wait()
+
+	return condos
+}
+
+func analyzeCondo(ctx context.Context, condoUrl string) *Condo {
 	if !isCondoUrl(condoUrl) {
-		return
+		return nil
 	}
 
 	log.Infof("Now is %s\n", condoUrl)
@@ -71,12 +92,10 @@ func analyzeCondo(ctx context.Context, condoUrl string, wg *sync.WaitGroup, cond
 	)
 	if err != nil {
 		log.Errorf("analyze condo %v", err)
-		return
+		return nil
 	}
 
 	c.Facility = analyzeFac(facilities)
 
-	*condos = append(*condos, c)
-
-	return
+	return c
 }
