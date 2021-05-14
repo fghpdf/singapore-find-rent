@@ -55,7 +55,7 @@ const directoryUrlTpl = "https://condo.singaporeexpats.com/%sname/"
 func Run() {
 	opts := append(chromedp.DefaultExecAllocatorOptions[:],
 		chromedp.UserAgent(uarand.GetRandom()),
-		//chromedp.Flag("headless", false),
+		chromedp.Flag("headless", false),
 	)
 
 	ctx, cancel := chromedp.NewExecAllocator(context.Background(), opts...)
